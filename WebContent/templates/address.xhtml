@@ -19,12 +19,13 @@
 	
 	<body>
 		<center>
-			<h1 style="font-size: 60px; padding-bottom: 30px;">Calendar</h1>
+			<h1 style="font-size: 60px; padding-bottom: 70px;">Calendar</h1>
 			
-			<form class="form-horizontal" action="CalendarServlet?form_type=home_form" method="post">
+			<form class="form-horizontal" action="CalendarServlet" method="post">
 				<div class="form-group" style="width: 300px;">
-					<input type="submit" class="form-control" name="login" value="Login"></input>
-					<input type="submit" class="form-control" name="register" value="Register"></input>
+					<input type="submit" class="form-control btn-info" name="login" value="Login"></input>
+					<input type="submit" class="form-control btn-info" name="register" value="Register"></input>
+					<input type="hidden" name="formType" value="homeForm"></input>
 				</div>
 			</form>
 		</center>
