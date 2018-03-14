@@ -1,6 +1,7 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import calendar.Manager;
+import models.User;
 
 /**
  * Servlet implementation class CalendarServlet
@@ -37,40 +39,54 @@ public class CalendarServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// response.getWriter().append("Served at: ").append(request.getContextPath());
 
-		RequestDispatcher rd = request.getRequestDispatcher("templates/address.xhtml");
-		rd.forward(request, response);
+		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		// If none of the below matches go to home page
-		RequestDispatcher rd = request.getRequestDispatcher("templates/address.xhtml");
-
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String formType = request.getParameter("formType");
-		if (formType.equals("homeForm")) {
-			if (request.getParameter("login") != null) {
-				rd = request.getRequestDispatcher("templates/Login.jsp");
-			} else if (request.getParameter("register") != null) {
-				rd = request.getRequestDispatcher("templates/Register.jsp");
-			}
+		if (formType.equals("registerButton")) {
+			// Redirect to the register page
+			response.sendRedirect("Register.jsp");
 		} else if (formType.equals("loginForm")) {
-			this.manager.login(request.getParameter("username"), request.getParameter("password"));
+			User user = this.manager.login(request.getParameter("username"), request.getParameter("password"));
+			
+			if (user != null) {
+				// Set the user to the session
+				request.getSession().setAttribute("user", user);
+				
+				// Redirect to the activities page
+				response.sendRedirect("/Calendar/safe/Activities.jsp");
+			}
+			else {
+				response.sendRedirect("/Calendar/address.xhtml");
+			}
+			
 		} else if (formType.equals("registerForm")) {
-			this.manager.register(
+			boolean is_registered = this.manager.register(
 				request.getParameter("firstName"), 
 				request.getParameter("lastName"),
 				request.getParameter("username"), 
 				request.getParameter("password1"),
 				request.getParameter("password2")
 			);
+			
+			if (is_registered) {
+				response.sendRedirect("/Calendar/address.xhtml");
+			}
+			else {
+				response.sendRedirect("/Calendar/Register.xhtml");
+			}
 		}
-
-		rd.forward(request, response);
+		else {
+			// If none of the above matches go to home page
+			RequestDispatcher rd = request.getRequestDispatcher("/Calendar/address.xhtml");
+			rd.forward(request, response);
+		}
 	}
 
 }
