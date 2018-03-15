@@ -26,7 +26,7 @@
 			<form class="form-horizontal" action="CalendarServlet" method="post">
 				<div class="form-group" style="width: 300px;">
 
-					<input type="hidden" name="activityId" value="-"></input>
+					<input type="hidden" name="activityId" value="0"></input>
 					
 					<input type="text" class="form-control" name="title" placeholder="Title"></input>
 					<input type="text" class="form-control" name="location" placeholder="Location"></input>

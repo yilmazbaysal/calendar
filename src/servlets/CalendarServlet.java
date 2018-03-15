@@ -2,6 +2,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import calendar.Manager;
+import models.Activity;
 import models.User;
 
 /**
@@ -83,7 +85,26 @@ public class CalendarServlet extends HttpServlet {
 			}
 		}
 		else if (formType.equals("activityEdit")) {
-			// TODO: Call manager
+			if(request.getSession().getAttribute("activityList") == null) {
+	            // Create the list in the session
+				request.getSession().setAttribute("activityList", new ArrayList<Activity>());   
+	        }
+			
+			System.out.println(request.getParameter("startTime"));
+			
+			/*
+			@SuppressWarnings("unchecked")
+			Activity activity = this.manager.activity_edit(
+					(ArrayList<Activity>) request.getSession().getAttribute("activityList"),
+					Integer.parseInt(request.getParameter("id")),
+					request.getParameter("title"),
+					request.getParameter("location"),
+					request.getParameter("description"),
+					request.getParameter("startTime"),
+					request.getParameter("endTime"),
+					(User) request.getSession().getAttribute("user")
+			);
+			*/
 		}
 		else {
 			// If none of the above matches go to home page
