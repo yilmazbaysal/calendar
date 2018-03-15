@@ -48,9 +48,6 @@ public class AuthenticationFilter implements Filter {
         } else {
             chain.doFilter(request, response); // Logged-in user found, so just continue request.
         }
-
-		// pass the request along the filter chain
-		chain.doFilter(request, response);
 	}
 
 	/**
