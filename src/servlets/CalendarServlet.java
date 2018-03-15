@@ -82,6 +82,9 @@ public class CalendarServlet extends HttpServlet {
 				response.sendRedirect("/Calendar/Register.xhtml");
 			}
 		}
+		else if (formType.equals("activityEdit")) {
+			// TODO: Call manager
+		}
 		else {
 			// If none of the above matches go to home page
 			RequestDispatcher rd = request.getRequestDispatcher("/Calendar/address.xhtml");

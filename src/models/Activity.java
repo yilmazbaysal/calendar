@@ -3,19 +3,33 @@ package models;
 import java.util.Date;
 
 public class Activity {
+	int id;
 	String title;
 	String location;
 	String description;
 	Date startTime;
 	Date endTime;
+	User owner;
 	
 	
-	public Activity(String title, String location, String description, Date startTime, Date endTime) {
+	public Activity(int id, String title, String location, String description, Date startTime, Date endTime, User owner) {
+		this.id = id;
 		this.title = title;
 		this.location = location;
 		this.description = description;
 		this.startTime = startTime;
 		this.endTime = endTime;
+		this.owner = owner;
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 
@@ -66,5 +80,15 @@ public class Activity {
 
 	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
+	}
+
+
+	public User getOwner() {
+		return owner;
+	}
+
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
 }

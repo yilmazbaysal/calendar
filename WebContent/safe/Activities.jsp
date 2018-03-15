@@ -7,6 +7,6 @@
 		<title>Activities</title>
 	</head>
 	<body>
-	
+	 <p>TEST</p>
 	</body>
 </html>
