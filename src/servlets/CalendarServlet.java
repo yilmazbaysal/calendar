@@ -2,7 +2,12 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,16 +44,18 @@ public class CalendarServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
-
 		
+		System.out.println("GET");
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		System.out.println("POST");
 		
 		String formType = request.getParameter("formType");
 		if (formType.equals("registerButton")) {
@@ -81,7 +88,7 @@ public class CalendarServlet extends HttpServlet {
 				response.sendRedirect("/Calendar/address.xhtml");
 			}
 			else {
-				response.sendRedirect("/Calendar/Register.xhtml");
+				response.sendRedirect("/Calendar/Register.jsp");
 			}
 		}
 		else if (formType.equals("activityEdit")) {
@@ -90,21 +97,38 @@ public class CalendarServlet extends HttpServlet {
 				request.getSession().setAttribute("activityList", new ArrayList<Activity>());   
 	        }
 			
-			System.out.println(request.getParameter("startTime"));
-			
-			/*
-			@SuppressWarnings("unchecked")
-			Activity activity = this.manager.activity_edit(
+			// Parse string dates in to the Date objects
+			Date startTime = null;
+			Date endTime = null;
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+				startTime =  df.parse(request.getParameter("startTime"));
+				endTime =  df.parse(request.getParameter("endTime"));
+			} catch (ParseException e) {
+				// Pass
+			}
+            
+			// Create or update the activity instance
+			Activity activity = this.manager.activityEdit(
 					(ArrayList<Activity>) request.getSession().getAttribute("activityList"),
-					Integer.parseInt(request.getParameter("id")),
+					Integer.parseInt(request.getParameter("activityId")),
 					request.getParameter("title"),
 					request.getParameter("location"),
 					request.getParameter("description"),
-					request.getParameter("startTime"),
-					request.getParameter("endTime"),
+					startTime,
+					endTime,
 					(User) request.getSession().getAttribute("user")
 			);
-			*/
+			
+			// Add the Activity instance to the session if it is created
+			if (activity != null) {
+				((ArrayList<Activity>) request.getSession().getAttribute("activityList")).add(activity);
+			}
+			
+			System.out.println(((ArrayList<Activity>) request.getSession().getAttribute("activityList")).size());
+			
+			// Redirect to the activities page
+			response.sendRedirect("/Calendar/safe/Activities.jsp");
 		}
 		else {
 			// If none of the above matches go to home page

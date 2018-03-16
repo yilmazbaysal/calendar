@@ -23,7 +23,7 @@
 		<center>
 			<h1 style="font-size: 60px; padding-bottom: 70px;">Activity</h1>
 			
-			<form class="form-horizontal" action="CalendarServlet" method="post">
+			<form class="form-horizontal" action="/Calendar/CalendarServlet" method="post">
 				<div class="form-group" style="width: 300px;">
 
 					<input type="hidden" name="activityId" value="0"></input>
