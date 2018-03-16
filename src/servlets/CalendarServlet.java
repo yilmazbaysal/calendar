@@ -69,7 +69,7 @@ public class CalendarServlet extends HttpServlet {
 				request.getSession().setAttribute("user", user);
 				
 				// Redirect to the activities page
-				response.sendRedirect("/Calendar/safe/Activities.jsp");
+				response.sendRedirect("/Calendar/safe/ActivityEdit.jsp");
 			}
 			else {
 				response.sendRedirect("/Calendar/address.xhtml");
@@ -124,8 +124,6 @@ public class CalendarServlet extends HttpServlet {
 			if (activity != null) {
 				((ArrayList<Activity>) request.getSession().getAttribute("activityList")).add(activity);
 			}
-			
-			System.out.println(((ArrayList<Activity>) request.getSession().getAttribute("activityList")).size());
 			
 			// Redirect to the activities page
 			response.sendRedirect("/Calendar/safe/Activities.jsp");

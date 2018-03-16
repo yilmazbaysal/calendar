@@ -1,5 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+	
+<%@ page import="models.Activity" %>
+<%@ page import="java.util.ArrayList" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -18,21 +21,48 @@
 		<title>Activity Edit</title>
 	</head>
 	
-	
 	<body>
 		<center>
 			<h1 style="font-size: 60px; padding-bottom: 70px;">Activity</h1>
 			
+			<% ArrayList<Activity> actList = (ArrayList<Activity>) session.getAttribute("activityList");
+				String editedActivityId = "";
+				String editedActivityTitle = "";
+				String editedActivityLocation = "";
+				String editedActivityDescription = "";
+				String editedActivityStartTime = "";
+				String editedActivityEndTime = "";
+				if (actList != null && request.getParameter("activityId") != null) {
+					for(Activity activity : actList) {
+						if (activity.getId() == Integer.parseInt(request.getParameter("activityId"))) {
+							editedActivityId = Integer.toString(activity.getId());
+							editedActivityTitle = activity.getTitle();
+							editedActivityLocation = activity.getLocation();
+							editedActivityDescription = activity.getDescription();
+							editedActivityStartTime = activity.getStartTime().toString();
+							editedActivityEndTime = activity.getEndTime().toString();
+						}
+					}
+				}
+			%>
+			
 			<form class="form-horizontal" action="/Calendar/CalendarServlet" method="post">
 				<div class="form-group" style="width: 300px;">
-
-					<input type="hidden" name="activityId" value="0"></input>
 					
-					<input type="text" class="form-control" name="title" placeholder="Title"></input>
-					<input type="text" class="form-control" name="location" placeholder="Location"></input>
-					<input type="text" class="form-control" name="description" placeholder="Description"></input>
-					<input type="date" class="form-control" name="startTime"></input>
-					<input type="date" class="form-control" name="endTime"></input>
+					<input type="hidden" name="activityId" value="<%
+						if (editedActivityId.equals("")) {
+							out.print(0);
+						}
+						else {
+							out.print(editedActivityId);
+						}
+					%>"></input>
+					
+					<input type="text" required class="form-control" name="title" placeholder="Title" value="<% out.print(editedActivityTitle); %>"></input>
+					<input type="text" required class="form-control" name="location" placeholder="Location" value="<% out.print(editedActivityLocation); %>"></input>
+					<input type="text" required class="form-control" name="description" placeholder="Description" value="<% out.print(editedActivityDescription); %>"></input>
+					<input type="date" required class="form-control" name="startTime" value="<% out.print(editedActivityStartTime); %>"></input>
+					<input type="date" required class="form-control" name="endTime" value="<% out.print(editedActivityEndTime); %>"></input>
 					
 					<input type="submit" class="form-control btn-info" value="Save"></input>
 					
