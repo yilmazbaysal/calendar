@@ -12,15 +12,23 @@
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 		
+		<!-- Font awesome -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+		
 		<title>Activities</title>
 		
 		<style>
 			table {
-				width: 100%;
+				width: 94%;
+				margin: 0 3% 0 3%;
 			}
 			
 			.tableCol {
 				width: 50%;
+			}
+			
+			tr {
+				vertical-align: top;
 			}
 			
 			tr p {
@@ -34,6 +42,11 @@
 			.addActBtn {
 				margin: 15px 0 30px 0;
 				padding: 10px 50px 10px 50px;
+			}
+			
+			.share-form-group {
+				margin-bottom: 0;
+				vertical-align: middle;
 			}
 		</style>
 	</head>
@@ -53,18 +66,31 @@
 			</tr>
 			<tr>
 			<td class="tableCol">
-				<table border="1">
+				<table class="actTable" border="1">
 				<% ArrayList<Activity> myActList = (ArrayList<Activity>) session.getAttribute("activityList");
 				   if (myActList != null) {
 					   for(Activity myAct : myActList) {
 						   out.println("<tr>");
-						   out.println("<td><p>" + myAct.getId() + "</p></td>");
 						   out.print("<td><p><a href=\"/Calendar/safe/ActivityEdit.jsp?activityId=" + myAct.getId() + "\">");
 						   out.println(myAct.getTitle() + "</a></p></td>");
 						   out.println("<td><p>" + myAct.getLocation() + "</p></td>");
 						   out.println("<td><p>" + myAct.getDescription() + "</p></td>");
 						   out.println("<td><p>" + myAct.getStartTime() + "</p></td>");
 						   out.println("<td><p>" + myAct.getEndTime() + "</p></td>");
+				%>
+						   <td style="width: 14%;"><center>
+								<form class="form-horizontal" action="/Calendar/CalendarServlet" method="post">
+									<div class="form-group share-form-group">
+										
+										<input type="hidden" name="activityId" value="<% out.print(myAct.getId()); %>"></input>
+										
+										<input type="submit" class="btn btn-info" value="Share"></input>
+										
+										<input type="hidden" name="formType" value="activityShare"></input>
+									</div>
+								</form>
+						   </center></td>
+				<%
 						   out.println("</tr>");
 					   }
 				   }
@@ -72,17 +98,17 @@
 				</table>
 			</td>
 			<td class="tableCol">
-				<table border="1">
-				<% ArrayList<Activity> atl = (ArrayList<Activity>) session.getAttribute("activityList");
-				   if (myActList != null) {
-					   for(Activity myAct : atl) {
+				<table class="actTable" border="1">
+				<% ArrayList<Activity> sharedActs = (ArrayList<Activity>) getServletContext().getAttribute("sharedActivities");
+				   if (sharedActs != null) {
+					   for(Activity sharedAct : sharedActs) {
 						   out.print("<tr>");
-						   out.print("<td><p>" + myAct.getId() + "</p></td>");
-						   out.print("<td><p>" + myAct.getTitle() + "</p></td>");
-						   out.print("<td><p>" + myAct.getLocation() + "</p></td>");
-						   out.print("<td><p>" + myAct.getDescription() + "</p></td>");
-						   out.print("<td><p>" + myAct.getStartTime() + "</p></td>");
-						   out.print("<td><p>" + myAct.getEndTime() + "</p></td>");
+						   out.print("<td><p>" + sharedAct.getOwner().getFirstName() + " " + sharedAct.getOwner().getLastName() + "</p></td>");
+						   out.print("<td><p>" + sharedAct.getTitle() + "</p></td>");
+						   out.print("<td><p>" + sharedAct.getLocation() + "</p></td>");
+						   out.print("<td><p>" + sharedAct.getDescription() + "</p></td>");
+						   out.print("<td><p>" + sharedAct.getStartTime() + "</p></td>");
+						   out.print("<td><p>" + sharedAct.getEndTime() + "</p></td>");
 						   out.print("</tr>");
 					   }
 				   }

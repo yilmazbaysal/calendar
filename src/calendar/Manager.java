@@ -77,10 +77,18 @@ public class Manager {
 		return null;
 	}
 	
-	public void deleteActivity(ArrayList<Activity> activities, int id) {
-		for (int i = 0; i < activities.size(); i++) {
-			if (activities.get(i).getId() == id) {
-				activities.remove(i);
+	public void deleteActivity(ArrayList<Activity> myActivities, ArrayList<Activity> sharedActivities, int id) {
+		// Delete from session scope
+		for (int i = 0; i < myActivities.size(); i++) {
+			if (myActivities.get(i).getId() == id) {
+				myActivities.remove(i);
+			}
+		}
+		
+		// Delete from application scope
+		for (int i = 0; i < sharedActivities.size(); i++) {
+			if (sharedActivities.get(i).getId() == id) {
+				sharedActivities.remove(i);
 			}
 		}
 	}

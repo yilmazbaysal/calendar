@@ -35,7 +35,13 @@ public class CalendarServlet extends HttpServlet {
 
 		manager = new Manager();
 	}
-
+	
+	@Override
+	public void init() throws ServletException {
+		this.getServletContext().setAttribute("sharedActivities", new ArrayList<Activity>());
+		super.init();
+	}
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -67,7 +73,7 @@ public class CalendarServlet extends HttpServlet {
 				request.getSession().setAttribute("user", user);
 				
 				// Redirect to the activities page
-				response.sendRedirect("/Calendar/safe/ActivityEdit.jsp");
+				response.sendRedirect("/Calendar/safe/Activities.jsp");
 			}
 			else {
 				response.sendRedirect("/Calendar/address.xhtml");
@@ -129,9 +135,33 @@ public class CalendarServlet extends HttpServlet {
 		else if (formType.equals("activityDelete")) {
 			this.manager.deleteActivity(
 					(ArrayList<Activity>) request.getSession().getAttribute("activityList"),
+					(ArrayList<Activity>) this.getServletContext().getAttribute("sharedActivities"),
 					Integer.parseInt(request.getParameter("activityId"))
 			);
 			
+			// Redirect to the activities page
+			response.sendRedirect("/Calendar/safe/Activities.jsp");
+		}
+		else if (formType.equals("activityShare")) {
+			int id = Integer.parseInt(request.getParameter("activityId"));
+			
+			boolean already_shared = false;
+			for (Activity activity : (ArrayList<Activity>) request.getSession().getAttribute("activityList")) {
+				if (activity.getId() == id) {
+					for(Activity sharedAct : (ArrayList<Activity>) this.getServletContext().getAttribute("sharedActivities")) {
+						if (sharedAct.getId() == id) {
+							already_shared = true;
+						}
+					}
+					
+					if (!already_shared) {
+						ArrayList<Activity> sharedActs = (ArrayList<Activity>) this.getServletContext().getAttribute("sharedActivities");
+						
+						sharedActs.add(activity);
+					}
+				}
+			}
+					
 			// Redirect to the activities page
 			response.sendRedirect("/Calendar/safe/Activities.jsp");
 		}
