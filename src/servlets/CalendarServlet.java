@@ -126,6 +126,15 @@ public class CalendarServlet extends HttpServlet {
 			// Redirect to the activities page
 			response.sendRedirect("/Calendar/safe/Activities.jsp");
 		}
+		else if (formType.equals("activityDelete")) {
+			this.manager.deleteActivity(
+					(ArrayList<Activity>) request.getSession().getAttribute("activityList"),
+					Integer.parseInt(request.getParameter("activityId"))
+			);
+			
+			// Redirect to the activities page
+			response.sendRedirect("/Calendar/safe/Activities.jsp");
+		}
 		else {
 			// If none of the above matches go to home page
 			RequestDispatcher rd = request.getRequestDispatcher("/Calendar/address.xhtml");

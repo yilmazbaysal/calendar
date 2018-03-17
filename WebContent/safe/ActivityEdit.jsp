@@ -74,6 +74,20 @@
 					<input type="hidden" name="formType" value="activityEdit"></input>
 				</div>
 			</form>
+			
+			<% if (!editedActivityId.equals("")) { %>
+				<form class="form-horizontal" action="/Calendar/CalendarServlet" method="post">
+					<div class="form-group" style="width: 300px;">
+						
+						<input type="hidden" name="activityId" value="<% out.print(editedActivityId); %>"></input>
+						
+						<input type="submit" class="form-control btn-danger" value="Delete"></input>
+						
+						<input type="hidden" name="formType" value="activityDelete"></input>
+					</div>
+				</form>
+			<% } %>
+			
 		</center>
 		
 		<!-- jQuery library -->

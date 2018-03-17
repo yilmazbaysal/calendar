@@ -8,6 +8,10 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+		
 		<title>Activities</title>
 		
 		<style>
@@ -27,17 +31,24 @@
 				text-align: center;
 			}
 			
+			.addActBtn {
+				margin: 15px 0 30px 0;
+				padding: 10px 50px 10px 50px;
+			}
 		</style>
 	</head>
 	
 	<body>
+		<center>
+			<a class="btn btn-primary addActBtn" role="button" href="/Calendar/safe/ActivityEdit.jsp">New Activity</a>
+		</center>
 		<table>
 			<tr>
 				<td class="tableCol">
-					<p class="tableTitle">My Activities</p>
+					<h3 class="tableTitle">My Activities</h3>
 				</td>
 				<td class="tableCol">
-					<p class="tableTitle">Shared Activities</p>
+					<h3 class="tableTitle">Shared Activities</h3>
 				<td>
 			</tr>
 			<tr>
@@ -81,6 +92,10 @@
 			</tr>
 		</table> 
 		
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	</body>
 </html>

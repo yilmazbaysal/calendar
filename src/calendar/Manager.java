@@ -76,4 +76,12 @@ public class Manager {
 		
 		return null;
 	}
+	
+	public void deleteActivity(ArrayList<Activity> activities, int id) {
+		for (int i = 0; i < activities.size(); i++) {
+			if (activities.get(i).getId() == id) {
+				activities.remove(i);
+			}
+		}
+	}
 }
