@@ -2,6 +2,9 @@
 	
 <%@ page import="models.Activity" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -26,6 +29,8 @@
 			<h1 style="font-size: 60px; padding-bottom: 70px;">Activity</h1>
 			
 			<% ArrayList<Activity> actList = (ArrayList<Activity>) session.getAttribute("activityList");
+				DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+				
 				String editedActivityId = "";
 				String editedActivityTitle = "";
 				String editedActivityLocation = "";
@@ -39,8 +44,8 @@
 							editedActivityTitle = activity.getTitle();
 							editedActivityLocation = activity.getLocation();
 							editedActivityDescription = activity.getDescription();
-							editedActivityStartTime = activity.getStartTime().toString();
-							editedActivityEndTime = activity.getEndTime().toString();
+							editedActivityStartTime = formatter.format(activity.getStartTime());
+							editedActivityEndTime = formatter.format(activity.getEndTime());
 						}
 					}
 				}
