@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
 <%@ page import="models.Activity" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.DateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -44,14 +47,24 @@
 				padding: 10px 50px 10px 50px;
 			}
 			
+			.share-form {
+				margin: 0 0 0 0;
+				padding: 0;
+			}
+			
+			.form-group {
+				margin: 7px 0 0 0;
+			}
+			
 			.share-form-group {
-				margin-bottom: 0;
 				vertical-align: middle;
 			}
 		</style>
 	</head>
 	
 	<body>
+		<% DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); %>
+		
 		<center>
 			<a class="btn btn-primary addActBtn" role="button" href="/Calendar/safe/ActivityEdit.jsp">New Activity</a>
 		</center>
@@ -65,6 +78,7 @@
 				<td>
 			</tr>
 			<tr>
+			
 			<td class="tableCol">
 				<table class="actTable" border="1">
 				<% ArrayList<Activity> myActList = (ArrayList<Activity>) session.getAttribute("activityList");
@@ -75,11 +89,11 @@
 						   out.println(myAct.getTitle() + "</a></p></td>");
 						   out.println("<td><p>" + myAct.getLocation() + "</p></td>");
 						   out.println("<td><p>" + myAct.getDescription() + "</p></td>");
-						   out.println("<td><p>" + myAct.getStartTime() + "</p></td>");
-						   out.println("<td><p>" + myAct.getEndTime() + "</p></td>");
+						   out.println("<td><p>" + formatter.format(myAct.getStartTime()) + "</p></td>");
+						   out.println("<td><p>" + formatter.format(myAct.getEndTime()) + "</p></td>");
 				%>
 						   <td style="width: 14%;"><center>
-								<form class="form-horizontal" action="/Calendar/CalendarServlet" method="post">
+								<form class="form-horizontal share-form" action="/Calendar/CalendarServlet" method="post">
 									<div class="form-group share-form-group">
 										
 										<input type="hidden" name="activityId" value="<% out.print(myAct.getId()); %>"></input>
@@ -107,8 +121,8 @@
 						   out.print("<td><p>" + sharedAct.getTitle() + "</p></td>");
 						   out.print("<td><p>" + sharedAct.getLocation() + "</p></td>");
 						   out.print("<td><p>" + sharedAct.getDescription() + "</p></td>");
-						   out.print("<td><p>" + sharedAct.getStartTime() + "</p></td>");
-						   out.print("<td><p>" + sharedAct.getEndTime() + "</p></td>");
+						   out.print("<td><p>" + formatter.format(sharedAct.getStartTime()) + "</p></td>");
+						   out.print("<td><p>" + formatter.format(sharedAct.getEndTime()) + "</p></td>");
 						   out.print("</tr>");
 					   }
 				   }
