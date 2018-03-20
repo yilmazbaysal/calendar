@@ -38,6 +38,7 @@ public class CalendarServlet extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
+		// Initialize the application scope shared activities list
 		this.getServletContext().setAttribute("sharedActivities", new ArrayList<Activity>());
 		super.init();
 	}
@@ -46,10 +47,7 @@ public class CalendarServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		System.out.println("GET");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 	/**
@@ -58,14 +56,13 @@ public class CalendarServlet extends HttpServlet {
 	 */
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		System.out.println("POST");
-		
+
 		String formType = request.getParameter("formType");
 		if (formType.equals("registerButton")) {
 			// Redirect to the register page
 			response.sendRedirect("Register.jsp");
-		} else if (formType.equals("loginForm")) {
+		} 
+		else if (formType.equals("loginForm")) {
 			User user = this.manager.login(request.getParameter("username"), request.getParameter("password"));
 			
 			if (user != null) {
@@ -79,7 +76,8 @@ public class CalendarServlet extends HttpServlet {
 				response.sendRedirect("/Calendar/address.xhtml");
 			}
 			
-		} else if (formType.equals("registerForm")) {
+		} 
+		else if (formType.equals("registerForm")) {
 			boolean is_registered = this.manager.register(
 				request.getParameter("firstName"), 
 				request.getParameter("lastName"),

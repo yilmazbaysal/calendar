@@ -56,12 +56,14 @@ public class Manager {
 
 	public Activity activityEdit(ArrayList<Activity> activities, int id, String title, String location, String description, Date startTime,
 			Date endTime, User owner) {
+		// If a new activity is created
 		if (id == 0) {
 			Activity activity = new Activity(this.lastActivityId, title, location, description, startTime, endTime, owner);
 			this.lastActivityId += 1;
 			
 			return activity;
 		}
+		// If an existing activity is edited
 		else {
 			for (Activity activity : activities) {
 				if(activity.getId() == id) {
